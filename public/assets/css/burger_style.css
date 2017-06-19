@@ -1,0 +1,25 @@
+h1 {
+    text-align: center;
+}
+
+body {
+    background-color: black;
+    color: lime;
+}
+
+.jumbotron {
+    background-color: green;
+}
+
+.lead {
+    text-align: center;
+}
+
+.form-control {
+    background-color: black;
+    color: lime;
+}
+
+.rtc, .eaten {
+    background-color: black;
+}
