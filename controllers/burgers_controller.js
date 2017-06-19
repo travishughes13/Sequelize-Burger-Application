@@ -7,9 +7,9 @@ module.exports = function(app) {
   // GET route for getting all of the todos
   app.get("/api/burgers", function(req, res) {
     db.Burgers.findAll({
-    }).then(function(todos) {
+    }).then(function(burgers) {
       console.log(res);
-      res.json(todos);
+      res.json(burgers);
     });
   });
 
