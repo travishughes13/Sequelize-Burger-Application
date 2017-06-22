@@ -1,52 +1,49 @@
+var express = require('express');
+var router = express.Router();
 var db = require("../models");
 
-// Routes
-// =============================================================
-module.exports = function(app) {
+module.exports = function(router) {
 
-  // GET route for getting all of the todos
-  app.get("/api/burgers", function(req, res) {
+  router.get('/', function (req, res) {
+    res.redirect('/burgers');
+  });
+
+  router.get("/burgers", function(req, res) {
     db.Burgers.findAll({
-    }).then(function(burgers) {
-      console.log(res);
-      res.json(burgers);
+    }).then(function(data) {
+		var hbsObject = { 
+      burgers: data 
+    };
+		res.render('index', hbsObject);
     });
   });
 
-  // POST route for saving a new todo. We can create todo with the data in req.body
-  app.post("/api/burgers", function(req, res) {
-    // Write code here to create a new todo and save it to the database
-    // and then res.json back the new todo to the user
+  router.post('/burgers/create', function (req, res) {
     db.Burgers.create({
       burger_name: req.body.burger_name,
       devoured: req.body.devoured
-    }).then(function(results){
-      res.end();
+    }).then(function() {
+      res.redirect('/burgers');
     });
   });
 
-  // DELETE route for deleting todos. We can get the id of the todo to be deleted from
-  // req.params.id
-  app.delete("/api/burgers/:id", function(req, res) {
-    db.Burgers.destroy({
-      where: {
-        id: req.params.id
-      }
-    }).then(function(results) {
-      res.end();
-    });
-  });
-
-  // PUT route for updating todos. We can get the updated todo data from req.body
-  app.put("/api/burgers", function(req, res) {
+  router.put('/burgers/update/:id', function (req, res) {
     db.Burgers.update({
-      devoured: req.body.devoured,
+      devoured: req.body.devoured
     }, {
       where: {
-        id: req.body.id
-      }
-    }).then(function(results){
-      res.end();
+        id:req.params.id
+      }}).then(function () {
+        res.redirect('/burgers');
+    });
+  });
+
+  router.delete('/burgers/delete/:id', function (req, res) {
+    db.Burgers.destroy({
+      where: {
+        id:req.params.id
+      }}).then(function() {
+        res.redirect('/burgers');
     });
   });
 };
